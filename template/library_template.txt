@@ -1,0 +1,7 @@
+from lib.app_lib import AppLib, excHandler
+
+class {class_name}(AppLib):
+    def __init__(self, *args, **kwargs):        
+        super().__init__("{library}.log", *args, **kwargs)   
+
+    # APIs Here (Do Not Remove This Line) # 

@@ -1,0 +1,41 @@
+
+
+    ########## {entity} methods ##########
+    @excHandler
+    def get_{entity}(self, {entity_pk}):
+        {entity} = self.db.fetchone("SELECT * FROM {entity} WHERE {entity_pk} = %s", {entity_pk})
+        if not {entity}:
+            raise Exception(f"{entity} not found with ID {{entity_pk}}")
+        return {"error": 0, "message": f"retrieved {{entity}}", "data": {entity} }
+
+    @excHandler
+    def get_{entity}_list(self, limit=100, offset=0):
+        {entity}_list = self.db.fetchall("SELECT * FROM {entity} LIMIT %s,%s", offset, limit)
+        return {"error": 0, "message": "retrieved {entity} list", "data": {entity}_list }
+
+    @excHandler
+    def create_{entity}(self, {entity}):
+        errno = self.db.insert("{entity}", {entity})
+        if not errno == 0:
+            raise Exception(f"Error: {errno}. Could not create {entity}")
+        
+        LOG|self.log("created {entity} with ID {self.db.lastInsId}")
+        return {"error": 0, "message": "{entity} created successfully", "data": {"{entity_pk}": self.db.lastInsId} }
+
+    @excHandler
+    def update_{entity}(self, {entity_pk}, {entity}):    
+        errno = self.db.update("{entity}", "{entity_pk}", {entity_pk}, {entity})
+        if not errno == 0:
+            raise Exception(f"Error: {errno}. Could not update {entity}")
+
+        LOG|self.log(f"updated {entity} with ID {{entity_pk}}")
+        return {"error": 0, "message": "{entity} updated successfully", "data": {"{entity_pk}": {entity_pk}} }
+
+    @excHandler
+    def delete_{entity}(self, {entity_pk}):
+        errno = self.db.execute("DELETE FROM {entity} WHERE {entity_pk} = %s", {entity_pk})
+        if errno != 0:
+            raise Exception(f"Error: {errno}. Could not delete {entity}")
+        
+        LOG|self.log(f"deleted {entity} with ID {{entity_pk}}")
+        return {"error": 0, "message": "{entity} deleted", "data": {}}

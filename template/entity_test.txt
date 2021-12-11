@@ -1,0 +1,63 @@
+import sys, unittest
+sys.path.append("..")
+from app import create_app
+from lib.{library} import {class_name}
+
+app = create_app("default")
+{inst_name} = {class_name}()
+{inst_name}.init_app(app)
+
+class Test{entity}(unittest.TestCase):
+
+    def test_{entity}(self):
+        ### Test Creation ###
+        create_result = {inst_name}.create_{entity}({
+            "username": "test",
+            "password": "test",
+            "first_name": "test",
+            "last_name": "test",
+            "email": "test"
+        })
+
+        self.assertEqual(create_result["error"], 0)
+
+        {entity_pk} = create_result["data"]["{entity_pk}"]
+
+        ### Test Updating ###
+        update_result = {inst_name}.update_{entity}({entity_pk}, {
+            "username": "test_update",
+            "password": "test_update",
+            "first_name": "test_update",
+            "last_name": "test_update",
+            "email": "test_update"
+        })
+
+        self.assertEqual(update_result["error"], 0)
+        
+        ### Test List Retreival ###
+        get_list_result = {inst_name}.get_{entity}_list(limit=10)
+        self.assertEqual(get_list_result["error"],0)
+        self.assertTrue(len(get_list_result["data"]) > 0)
+
+        ### Test Retrieval ###
+        get_result = {inst_name}.get_{entity}({entity_pk})
+
+        self.assertEqual(get_result["error"],0)
+        self.assertTrue(bool(get_result["data"]))
+        self.assertEqual(get_result["data"]["username"], "test_update")
+        self.assertEqual(get_result["data"]["password"], "test_update")
+        self.assertEqual(get_result["data"]["first_name"], "test_update")
+        self.assertEqual(get_result["data"]["last_name"], "test_update")
+        self.assertEqual(get_result["data"]["email"], "test_update")
+
+        ### Test Deletion ###
+        delete_result = {inst_name}.delete_{entity}({entity_pk})    
+        self.assertEqual(delete_result["error"],0)
+
+        get_deleted_result = {inst_name}.get_{entity}({entity_pk})
+        self.assertNotEqual(get_deleted_result["error"],0)
+
+if __name__ == '__main__':
+    print("run with: python -m unittest {entity}_test.py")
+
+

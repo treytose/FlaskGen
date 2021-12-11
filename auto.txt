@@ -1,7 +1,7 @@
 new_app
 TestApp
 y
-/home/ec2-user/projects/flask_gen
+/tmp
 y
 y
 localhost

@@ -1,0 +1,38 @@
+<!doctype html>
+{% set page_title = 'My Web App' %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{{page_title}}</title>
+        <meta name="description" content="{{page_title}}">
+        <meta name="author" content="SitePoint">
+
+        <meta property="og:title" content="{{page_title}}">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://www.sitepoint.com/a-basic-html5-template/">
+        <meta property="og:description" content="{{page_description}}">
+        <meta property="og:image" content="image.png">
+
+        <link rel="icon" href="/favicon.ico">
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+        <link rel="stylesheet" href="{{url_for('static', filename='css/lib/bootstrap.min.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/base.css')}}">
+        {% block head %}
+
+        {% endblock %}
+    </head>
+    <body>
+        {% block content %}
+
+        {% endblock %}   
+        <script src="{{url_for('static', filename='js/lib/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{url_for('static', filename='js/lib/vue3.js')}}"></script>
+        {% block scripts %}
+
+        {% endblock %}
+    </body>    
+</html>

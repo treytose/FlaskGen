@@ -1,9 +1,9 @@
 #!/usr/local/bin/python3.9
 import sys, subprocess, os, shutil, re
-from flask_gen_config import FlaskGenConfig
+from config import Config
 from lib.p3tools import p3db
 
-config = FlaskGenConfig()
+config = Config()
 BASE_DIR = os.getcwd()
 
 ######## Helpers ########
@@ -11,7 +11,7 @@ def load_flask_application():
     if not config.APP_PATH:
         app_path = input("Enter path to base application (e.g. /path/to/my/app): ")
         if input("Would you like to save this application as the default? (y/n) ") == "y":
-            search_and_replace(os.path.join(BASE_DIR, "flask_gen_config.py"), 'APP_PATH =', f'APP_PATH = "{app_path}"', whole_line=True)
+            search_and_replace(os.path.join(BASE_DIR, "config.py"), 'APP_PATH =', f'APP_PATH = "{app_path}"', whole_line=True)
             print("Application saved and will be loaded by default")
     else:
         app_path = config.APP_PATH
@@ -125,7 +125,7 @@ def new_app():
     app_path = os.path.join(app_path, app_name)
 
     print("Updating default config application..")
-    search_and_replace(os.path.join(BASE_DIR, "flask_gen_config.py"), 'APP_PATH =', f'APP_PATH = "{app_path}"', whole_line=True)
+    search_and_replace(os.path.join(BASE_DIR, "config.py"), 'APP_PATH =', f'APP_PATH = "{app_path}"', whole_line=True)
     config.APP_PATH = app_path
     
     print(f"Creating directory: {app_path}")
@@ -238,8 +238,10 @@ def library_factory():
         
 
 def entity_factory():
+    load_flask_application()
+    
     if not config.DB_HOST or not config.DB_NAME or not config.DB_USER or not config.DB_PASSWORD:
-        print("A database connection is required for automatic entity generation. Edit flask_gen_config.py with database information to continue.")
+        print("A database connection is required for automatic entity generation. Edit config.py with database information to continue.")
         return 
 
     entity = get_confirmed_input("Entity Name: ") 

@@ -8,5 +8,4 @@ args, unknown = parser.parse_known_args()
 app = create_app(args.config)
 
 if __name__ == '__main__':
-    print("running on port: ", app.config.get("PORT"))
     app.run(host=app.config.get('HOST'), port=app.config.get('PORT'), debug=app.config.get('DEBUG'))

@@ -1,5 +1,4 @@
 from flask_login import current_user
-from functools import wraps
 
 def permission_required(*permissions):
     def decorator(f):

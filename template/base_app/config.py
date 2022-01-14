@@ -8,25 +8,25 @@ class DevelopmentConfig(Config):
     HOST = '0.0.0.0'
     DEBUG = True
 
-    DB_HOST = ""
-    DB_USER = ""
-    DB_PASSWORD = ""
-    DB_NAME = ""
+    DB_HOST = os.getenv("DB_HOST")
+    DB_USER = os.getenv("DB_USER")
+    DB_PASSWORD = os.getenv("DB_PASSWORD")
+    DB_NAME = os.getenv("DB_NAME")
 
 class ProductionConfig(Config):
-    PORT = 80
+    PORT = 5500
     HOST = '0.0.0.0'
     DEBUG = False
 
-    DB_HOST = ""
-    DB_USER = ""
-    DB_PASSWORD = ""
-    DB_NAME = ""
+    DB_HOST = os.getenv("DB_HOST")
+    DB_USER = os.getenv("DB_USER")
+    DB_PASSWORD = os.getenv("DB_PASSWORD")
+    DB_NAME = os.getenv("DB_NAME")
 
 
 
 config = {
-    "default": DevelopmentConfig(),
+    "default": ProductionConfig(),
     "development": DevelopmentConfig(),
     "production": ProductionConfig()
 }

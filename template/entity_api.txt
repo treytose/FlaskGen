@@ -1,29 +1,34 @@
 
 @{blueprint}BP.route("/{entity}/<int:{entity_pk}>")
 GET_AUTH|@permission_required("view_{entity}")
+@login_required
 def get_{entity}({entity_pk}):
     return jsonify({inst_name}.get_{entity}({entity_pk}))
 
 @{blueprint}BP.route("/{entity}/list")
 GET_AUTH|@permission_required("view_{entity}")
-def get_{entity}():
+@login_required
+def get_{entity}_list():
     limit = request.args.get("limit", 100)
     offset = request.args.get("offset", 0)
-    return jsonify({inst_name}.get_{entity}_list({entity_pk}, limit=limit, offset=offset))
+    return jsonify({inst_name}.get_{entity}_list(limit=limit, offset=offset))
 
 @{blueprint}BP.route("/{entity}", methods=["POST"])
 CREATE_AUTH|@permission_required("create_{entity}")
+@login_required
 def create_{entity}():
     {entity} = request.get_json()
     return jsonify({inst_name}.create_{entity}({entity}))
 
 @{blueprint}BP.route("/{entity}/<int:{entity_pk}>", methods=["POST", "UPDATE"])
 UPDATE_AUTH|@permission_required("update_{entity}")
+@login_required
 def update_{entity}({entity_pk}):
     {entity} = request.get_json()
     return jsonify({inst_name}.update_{entity}({entity_pk}, {entity}))
 
 @{blueprint}BP.route("/{entity}/delete/<int:{entity_pk}>", methods=["POST", "DELETE"])
 DELETE_AUTH|@permission_required("delete_{entity}")
+@login_required
 def delete_{entity}({entity_pk}):
     return jsonify({inst_name}.delete_{entity}({entity_pk}))
